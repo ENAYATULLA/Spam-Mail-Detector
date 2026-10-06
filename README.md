@@ -1,107 +1,120 @@
-# Spam Mail Detector
+# `>_ SPAM MAIL DETECTOR`
 
-A machine learning-based spam message detection system built using **Python, Natural Language Processing (NLP), TF-IDF, and Multinomial Naive Bayes**.
+<p align="center">
 
-The project classifies SMS messages as either **Spam** or **Ham (Not Spam)**.
+**Machine Learning × NLP × Text Classification**
+
+A lightweight machine learning system that detects whether an SMS message is **SPAM** or **HAM** using **TF-IDF** and **Multinomial Naive Bayes**.
+
+</p>
+
+<p align="center">
+
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge\&logo=python\&logoColor=white)
+![NLP](https://img.shields.io/badge/NLP-Text%20Classification-8A2BE2?style=for-the-badge)
+![Scikit Learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?style=for-the-badge\&logo=scikit-learn\&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Completed-00C853?style=for-the-badge)
+
+</p>
 
 ---
 
-## 1. Project Overview
+## `01 // SYSTEM OVERVIEW`
 
-Spam messages are unwanted messages that may contain advertisements, scams, fraudulent offers, or other unwanted content.
+```text
+┌──────────────────────────────────────────────────────┐
+│                SPAM MAIL DETECTOR                    │
+├──────────────────────────────────────────────────────┤
+│                                                      │
+│  INPUT MESSAGE                                       │
+│       │                                              │
+│       ▼                                              │
+│  TEXT PREPROCESSING                                  │
+│       │                                              │
+│       ▼                                              │
+│  TF-IDF FEATURE EXTRACTION                           │
+│       │                                              │
+│       ▼                                              │
+│  MULTINOMIAL NAIVE BAYES                             │
+│       │                                              │
+│       ▼                                              │
+│  ┌──────────────┬──────────────┐                     │
+│  │     HAM      │     SPAM     │                     │
+│  └──────────────┴──────────────┘                     │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
 
-This project uses machine learning and natural language processing techniques to automatically classify messages as:
-
-* **Ham** – Normal or legitimate messages
-* **Spam** – Unwanted or potentially fraudulent messages
+This project demonstrates a complete **Natural Language Processing + Machine Learning** pipeline for detecting spam messages.
 
 The model was trained using the **SMS Spam Collection dataset**.
 
 ---
 
-## 2. Technologies Used
+## `02 // TECH STACK`
 
-* Python
-* Pandas
-* NumPy
-* Scikit-learn
-* Matplotlib
-* Seaborn
-* Natural Language Processing (NLP)
-* TF-IDF
-* Multinomial Naive Bayes
-* Joblib
+```text
+Language       → Python
+Data           → Pandas / NumPy
+NLP            → Text Preprocessing / TF-IDF
+ML             → Multinomial Naive Bayes
+Evaluation     → Accuracy / Precision / Recall / F1
+Visualization  → Matplotlib / Seaborn
+Serialization  → Joblib
+```
 
 ---
 
-## 3. Dataset
+## `03 // DATASET`
 
-The project uses the **SMS Spam Collection Dataset**, which contains labeled SMS messages classified as either `ham` or `spam`.
+The project uses the **SMS Spam Collection Dataset**, containing messages labeled as:
 
-Each message contains:
-
-* Message label
-* Message text
+```text
+HAM   → Legitimate message
+SPAM  → Unwanted / fraudulent message
+```
 
 Example:
 
 ```text
-ham    Go until jurong point, crazy.. Available only in bugis n great world la e buffet...
-spam   Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005.
+HAM
+Go until jurong point, crazy.. Available only in bugis n great world la e buffet...
+
+SPAM
+Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005.
 ```
 
-The dataset was divided into training and testing data.
-
-The test dataset contains **1,115 messages**:
-
-* Ham: 966
-* Spam: 149
-
----
-
-## 4. Project Workflow
-
-The overall machine learning pipeline is:
+### Test Dataset
 
 ```text
-SMS Dataset
-     ↓
-Text Preprocessing
-     ↓
-TF-IDF Feature Extraction
-     ↓
-Train/Test Split
-     ↓
-Multinomial Naive Bayes
-     ↓
-Model Evaluation
-     ↓
-Custom Message Prediction
+Total Messages : 1115
+HAM            : 966
+SPAM           : 149
 ```
 
 ---
 
-## 5. Text Preprocessing
+## `04 // TEXT PREPROCESSING`
 
-Before training the machine learning model, the messages were cleaned.
+Raw text cannot be directly used by the machine learning model.
 
-The preprocessing steps include:
+The messages were cleaned using the following steps:
 
-1. Converting text to lowercase
-2. Removing URLs
-3. Removing email addresses
-4. Removing unnecessary special characters
-5. Removing extra spaces
+```text
+[1] Convert text to lowercase
+[2] Remove URLs
+[3] Remove email addresses
+[4] Remove unnecessary special characters
+[5] Remove extra spaces
+```
 
-### Example
-
-#### Original Message
+### Before
 
 ```text
 Go until jurong point, crazy.. Available only in bugis n great world la e buffet...
 ```
 
-#### Cleaned Message
+### After
 
 ```text
 go until jurong point crazy available only in bugis n great world la e buffet
@@ -109,13 +122,13 @@ go until jurong point crazy available only in bugis n great world la e buffet
 
 ---
 
-## 6. TF-IDF Feature Extraction
+## `05 // FEATURE EXTRACTION`
 
-Machine learning models cannot directly understand raw text.
+### TF-IDF
 
-Therefore, **TF-IDF (Term Frequency-Inverse Document Frequency)** was used to convert the text messages into numerical feature vectors.
+**TF-IDF (Term Frequency-Inverse Document Frequency)** converts text into numerical feature vectors that can be processed by a machine learning algorithm.
 
-The vectorizer was configured with a maximum of **5,000 features**.
+Configuration:
 
 ```python
 TfidfVectorizer(
@@ -124,25 +137,42 @@ TfidfVectorizer(
 )
 ```
 
----
-
-## 7. Machine Learning Model
-
-A **Multinomial Naive Bayes** classifier was used for spam detection.
-
-Naive Bayes is a commonly used machine learning algorithm for text classification because it works well with high-dimensional text features such as TF-IDF vectors.
+```text
+Maximum Features → 5000
+Stop Words       → English
+```
 
 ---
 
-## 8. Model Evaluation
+## `06 // CLASSIFICATION ENGINE`
 
-The model was evaluated using:
+The classification model used in this project is:
 
-* Accuracy
-* Precision
-* Recall
-* F1 Score
-* Confusion Matrix
+```text
+Multinomial Naive Bayes
+```
+
+Naive Bayes is well suited for text classification because it performs efficiently with high-dimensional feature vectors such as TF-IDF.
+
+### Classification Flow
+
+```text
+Message
+   ↓
+Preprocessing
+   ↓
+TF-IDF
+   ↓
+Naive Bayes
+   ↓
+┌───────────────┐
+│ SPAM / HAM    │
+└───────────────┘
+```
+
+---
+
+## `07 // MODEL PERFORMANCE`
 
 ### Final Results
 
@@ -168,89 +198,119 @@ weighted avg       0.97      0.97      0.97      1115
 
 ---
 
-## 9. Confusion Matrix
+## `08 // DATASET ANALYSIS`
 
-The confusion matrix obtained from the test dataset was:
+### Spam vs Ham Distribution
 
-```text
-[[966   0]
- [ 35 114]]
-```
+<p align="center">
 
-This means:
+<img src="results/class_distribution.png" alt="Spam vs Ham Class Distribution" width="700">
 
-* 966 Ham messages were correctly classified as Ham.
-* 114 Spam messages were correctly classified as Spam.
-* 35 Spam messages were incorrectly classified as Ham.
-* 0 Ham messages were incorrectly classified as Spam.
-
-The confusion matrix visualization is available in:
-
-```text
-results/confusion_matrix.png
-```
+</p>
 
 ---
 
-## 10. Custom Message Testing
-
-The trained model was also tested with new messages that were not part of the training dataset.
-
-### Example 1
+## `09 // CONFUSION MATRIX`
 
 ```text
-Congratulations! You have won a free cash prize. Claim now!
+                 PREDICTED
+
+              HAM       SPAM
+           ┌────────┬────────┐
+ACTUAL HAM │  966   │   0    │
+           ├────────┼────────┤
+     SPAM  │   35   │  114   │
+           └────────┴────────┘
 ```
 
-Prediction:
+### Interpretation
 
 ```text
-SPAM
-Confidence: 97.99%
+966 → Ham correctly classified as Ham
+114 → Spam correctly classified as Spam
+ 35 → Spam incorrectly classified as Ham
+  0 → Ham incorrectly classified as Spam
 ```
 
-### Example 2
+### Visualization
+
+<p align="center">
+
+<img src="results/confusion_matrix.png" alt="Confusion Matrix" width="600">
+
+</p>
+
+---
+
+## `10 // LIVE TESTING`
+
+The trained model was tested with new messages that were not part of the training dataset.
+
+### `[01]` Spam Detection
 
 ```text
+INPUT
+────────────────────────────────────────
+
+Congratulations! You have won a free cash prize.
+Claim now!
+
+OUTPUT
+────────────────────────────────────────
+
+[+] CLASS      : SPAM
+[+] CONFIDENCE : 97.99%
+```
+
+### `[02]` Ham Detection
+
+```text
+INPUT
+────────────────────────────────────────
+
 Hey, are you free today? Let's meet in the evening.
+
+OUTPUT
+────────────────────────────────────────
+
+[+] CLASS      : HAM
+[+] CONFIDENCE : 99.19%
 ```
 
-Prediction:
+### `[03]` Spam Detection
 
 ```text
-HAM
-Confidence: 99.19%
+INPUT
+────────────────────────────────────────
+
+URGENT! You have won a lottery.
+Send your details to claim.
+
+OUTPUT
+────────────────────────────────────────
+
+[+] CLASS      : SPAM
+[+] CONFIDENCE : 79.97%
 ```
 
-### Example 3
+### `[04]` Ham Detection
 
 ```text
-URGENT! You have won a lottery. Send your details to claim.
-```
+INPUT
+────────────────────────────────────────
 
-Prediction:
-
-```text
-SPAM
-Confidence: 79.97%
-```
-
-### Example 4
-
-```text
 Can you please send me the assignment?
-```
 
-Prediction:
+OUTPUT
+────────────────────────────────────────
 
-```text
-HAM
-Confidence: 89.10%
+[+] CLASS      : HAM
+[+] CONFIDENCE : 89.10%
 ```
 
 ---
 
-## 11. Project Structure
+## `11 // PROJECT STRUCTURE`
 
 ```text
 Spam-Mail-Detector/
@@ -274,45 +334,36 @@ Spam-Mail-Detector/
 └── README.md
 ```
 
-> The `venv/` virtual environment is used locally and is excluded from Git using `.gitignore`.
-
 ---
 
-## 12. How to Run the Project
+## `12 // RUN LOCALLY`
 
-### Step 1: Clone the repository
-
-```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-```
-
-### Step 2: Open the project
+### Clone
 
 ```bash
+git clone https://github.com/ENAYATULLA/Spam-Mail-Detector.git
 cd Spam-Mail-Detector
 ```
 
-### Step 3: Create a virtual environment
+### Create Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-### Step 4: Activate the virtual environment
-
-#### Windows PowerShell
+### Activate — Windows PowerShell
 
 ```powershell
 .\venv\Scripts\Activate.ps1
 ```
 
-### Step 5: Install dependencies
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Step 6: Run the program
+### Run
 
 ```bash
 python src\spam_detector.py
@@ -320,76 +371,76 @@ python src\spam_detector.py
 
 ---
 
-## 13. Output
+## `13 // GENERATED OUTPUT`
 
-The project generates:
-
-* Spam vs Ham class distribution graph
-* Confusion matrix
-* Model performance metrics
-* Trained machine learning model
-* TF-IDF vectorizer
-* Predictions for custom messages
-
-Generated files include:
+Running the project produces:
 
 ```text
-results/class_distribution.png
-results/confusion_matrix.png
-models/spam_classifier.pkl
-models/tfidf_vectorizer.pkl
+results/
+├── class_distribution.png
+└── confusion_matrix.png
+
+models/
+├── spam_classifier.pkl
+└── tfidf_vectorizer.pkl
+```
+
+The system also displays:
+
+```text
+[+] Model Performance
+[+] Classification Metrics
+[+] Confusion Matrix
+[+] Custom Message Predictions
 ```
 
 ---
 
-## 14. Limitations
+## `14 // LIMITATIONS`
 
-The model has some limitations:
-
-* It is trained on SMS messages and may not perform equally well on all types of emails.
-* New spam patterns may not always be detected correctly.
-* Some spam messages may be classified as ham.
-* The dataset is relatively small compared with large-scale real-world email datasets.
-* The model may perform differently on messages with vocabulary or patterns that are very different from the training data.
-
----
-
-## 15. Future Improvements
-
-Possible improvements include:
-
-* Using larger and more diverse datasets
-* Comparing multiple machine learning algorithms
-* Adding advanced NLP techniques
-* Using word and character n-grams
-* Handling multilingual spam messages
-* Developing a web interface for real-time spam detection
-* Periodically retraining the model with new spam examples
+```text
+[!] Dataset is based on SMS messages.
+[!] Performance may vary on real-world email data.
+[!] New spam patterns may not always be detected.
+[!] Some spam messages may be classified as ham.
+[!] Dataset size is limited compared with large production datasets.
+```
 
 ---
 
-## 16. Conclusion
+## `15 // FUTURE UPGRADES`
 
-This project demonstrates a basic Natural Language Processing and machine learning pipeline for spam message detection.
-
-The combination of text preprocessing, TF-IDF feature extraction, and Multinomial Naive Bayes achieved an accuracy of **96.86%** on the test dataset.
-
-The project provided practical experience in:
-
-* Text preprocessing
-* Feature extraction
-* Machine learning classification
-* Model evaluation
-* Confusion matrix analysis
-* Working with real-world text data
-
-Overall, the project demonstrates how traditional machine learning techniques can be used to build a simple and effective text classification system for spam detection.
+```text
+[+] Larger and more diverse datasets
+[+] Compare multiple ML algorithms
+[+] Word and character n-grams
+[+] Advanced NLP techniques
+[+] Multilingual spam detection
+[+] Real-time web interface
+[+] Continuous model retraining
+```
 
 ---
 
-## 17. Requirements
+## `16 // WHAT I LEARNED`
 
-The main Python libraries used in this project are:
+Through this project, I gained practical experience with:
+
+```text
+→ Text preprocessing
+→ Natural Language Processing
+→ TF-IDF feature extraction
+→ Machine learning classification
+→ Multinomial Naive Bayes
+→ Model evaluation
+→ Confusion matrix analysis
+→ Saving and loading ML models
+→ Working with real-world text data
+```
+
+---
+
+## `17 // REQUIREMENTS`
 
 ```text
 pandas
@@ -400,7 +451,7 @@ seaborn
 joblib
 ```
 
-All dependencies can be installed using:
+Install everything with:
 
 ```bash
 pip install -r requirements.txt
@@ -408,11 +459,9 @@ pip install -r requirements.txt
 
 ---
 
-## 18. Git Ignore
+## `18 // GITIGNORE`
 
-The virtual environment and temporary Python files should not be uploaded to GitHub.
-
-The `.gitignore` file contains:
+The local virtual environment is intentionally excluded from the repository.
 
 ```text
 venv/
@@ -424,13 +473,36 @@ __pycache__/
 
 ---
 
-## 19. Author
+## `19 // PROJECT STATUS`
+
+```text
+┌─────────────────────────────────────┐
+│                                     │
+│   STATUS     :  COMPLETED           │
+│   MODEL      :  TRAINED             │
+│   ACCURACY   :  96.86%              │
+│   PIPELINE   :  NLP + ML             │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+---
+
+## `20 // AUTHOR`
 
 **Enayat Ullah**
 
 Computer Science Graduate
-B.Tech in Computer Science and Engineering
+B.Tech — Computer Science & Engineering
 
-GitHub: [ENAYATULLA](https://github.com/ENAYATULLA)
-#   S p a m - M a i l - D e t e c t o r  
- 
+**GitHub:** [@ENAYATULLA](https://github.com/ENAYATULLA)
+
+---
+
+<p align="center">
+
+`[ SYSTEM ONLINE ]`
+
+**Built with Python • NLP • Machine Learning**
+
+</p>
